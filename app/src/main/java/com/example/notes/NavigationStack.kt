@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.notes.screens.AddNotesScreen
 import com.example.notes.screens.HomeScreen
+import com.example.notes.screens.Screen
 
 @Composable
 fun NavigationStack() {

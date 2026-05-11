@@ -8,11 +8,13 @@ import com.example.notes.CustomDrawer
 
 @Composable
 fun AddNotesScreen(navController: NavController, id: String?) {
-    CustomDrawer(content = { innerPadding ->
-        Column() {
-            Text("Add Notes")
-        }
-    })
+    CustomDrawer(
+        navController = navController,
+        content = { innerPadding ->
+            Column() {
+                Text("Add Notes")
+            }
+        })
 
 
 }

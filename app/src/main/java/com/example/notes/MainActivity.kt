@@ -35,26 +35,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-sealed class Screen(val route: String) {
-    object Home : Screen("home")
-    object AddNotes : Screen("addNotes")
-}
-
-@Composable
-fun NotesCard(innerPadding: PaddingValues) {
-    Card(
-        modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxWidth()
-            .height(150.dp)
-    ) {
-        Text("I was going to ...")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NotesTheme {}
-}
