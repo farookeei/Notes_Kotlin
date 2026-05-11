@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.notes.screens.HomeScreen
 import com.example.notes.ui.theme.NotesTheme
 
 
@@ -28,13 +29,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NotesTheme {
-                CustomDrawer(
-                    content = { innerPadding ->
-                        NotesCard(innerPadding)
-                    })
+                NavigationStack()
             }
         }
     }
+}
+
+
+sealed class Screen(val route: String) {
+    object Home : Screen("home")
+    object AddNotes : Screen("addNotes")
 }
 
 @Composable
