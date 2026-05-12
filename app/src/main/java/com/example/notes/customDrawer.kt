@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.notes.screens.Screen
+import com.example.notes.screens.Screen.Companion.getTitleByRoute
 import kotlinx.coroutines.launch
 
 
@@ -46,16 +47,14 @@ fun CustomDrawer(
     navController: NavController
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    //
     val scope = rememberCoroutineScope()
-    // Observe the current navigation route
+    //
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    // Define the title based on the route
-    val title = when (currentRoute) {
-        Screen.Home.route -> "My Notes"
-        Screen.AddNotes.route -> "Add Note"
-        else -> "Notes"
-    }
+    val title = getTitleByRoute(currentRoute)
+
+
 
     ModalNavigationDrawer(
         drawerContent = {
