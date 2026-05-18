@@ -36,7 +36,10 @@ fun HomeScreen(navController: NavController, viewModel: NoteViewModel = koinView
         ) {
             items(notes) { note ->
                 NotesCard(
-                    content = note.content
+                    title = note.content,
+                    onClick = {
+                        navController.navigate(route = Screen.EditNotes.route + "/${note.id}")
+                    }
                 )
             }
         }

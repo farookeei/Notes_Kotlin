@@ -11,15 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NotesCard(content: String) {
+fun NotesCard(title: String, onClick: () -> Unit) {
     Card(
+        onClick = onClick,
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(150.dp)
+            .height(50.dp)
     ) {
         Text(
-            text = content,
+            text = title.take(10),
             modifier = Modifier.padding(16.dp)
         )
     }

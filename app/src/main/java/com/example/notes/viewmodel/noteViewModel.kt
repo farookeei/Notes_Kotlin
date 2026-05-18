@@ -6,8 +6,10 @@ import com.example.notes.database.notes.Note
 import com.example.notes.database.notes.NoteDao
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 
 class NoteViewModel(private val dao: NoteDao) : ViewModel() {
     // By converting the Flow to a StateFlow, the UI can observe 'notes'
@@ -18,6 +20,10 @@ class NoteViewModel(private val dao: NoteDao) : ViewModel() {
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    fun getNoteById(id: Int?): Flow<Note?> {
+        return getNotes.map { notes -> notes.find { it.id == id } }
+    }
 
     fun addNote(content: String) {
         viewModelScope.launch {

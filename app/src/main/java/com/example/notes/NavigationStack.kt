@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.notes.screens.AddNotesScreen
+import com.example.notes.screens.EditNotesScreen
 import com.example.notes.screens.HomeScreen
 import com.example.notes.screens.Screen
 
@@ -20,13 +21,25 @@ fun NavigationStack() {
         }
         composable(
             route = Screen.AddNotes.route
-//            route = Screen.AddNotes.route + "?id={id}", arguments = listOf(
-//                navArgument(name = "id") {
-//                    type = NavType.StringType
-//                    nullable = true
-//                })
         ) {
             AddNotesScreen(navController)
         }
+
+        composable(
+//            route = Screen.EditNotes.route + "?id={id}", arguments = listOf(
+            route = Screen.EditNotes.route + "/{id}", arguments = listOf(
+                navArgument(name = "id") {
+                    type = NavType.StringType
+                    nullable = true
+                })
+        ) {
+            EditNotesScreen(navController, it.arguments?.getString("id")?.toInt())
+        }
+//        { backStackEntry ->
+//            // 3. Extract the ID from the navigation arguments
+//            val noteId = backStackEntry.arguments?.getString("id")
+//
+        //            EditNotesScreen(navController = navController, id = noteId)
+//        }
     }
 }
