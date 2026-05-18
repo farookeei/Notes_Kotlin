@@ -11,13 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NotesCard(innerPadding: PaddingValues) {
+fun NotesCard(content: String) {
     Card(
         modifier = Modifier
-            .padding(innerPadding)
+            .padding(8.dp)
             .fillMaxWidth()
             .height(150.dp)
     ) {
-        Text("I was going to ...")
+        Text(
+            text = content,
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }

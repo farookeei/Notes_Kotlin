@@ -19,8 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.notes.di.appModule
 import com.example.notes.screens.HomeScreen
 import com.example.notes.ui.theme.NotesTheme
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 
 class MainActivity : ComponentActivity() {

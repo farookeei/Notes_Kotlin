@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CustomDrawer(
     content: @Composable (PaddingValues) -> Unit,
+    floatingActionButton: @Composable () -> Unit,
     navController: NavController
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -81,6 +82,7 @@ fun CustomDrawer(
                         selected = currentRoute == Screen.AddNotes.route,
                         onClick = {
                             scope.launch { drawerState.close() }
+
                             navController.navigate(route = Screen.AddNotes.route)
                         }
                     )
@@ -88,29 +90,24 @@ fun CustomDrawer(
             }
         }, drawerState = drawerState
     ) {
-        Scaffold(topBar = {
-            TopAppBar(title = { Text(title) }, navigationIcon = {
-                IconButton(onClick = {
-                    scope.launch {
-                        if (drawerState.isClosed) {
-                            drawerState.open()
-                        } else {
-                            drawerState.close()
+        Scaffold(
+            topBar = {
+                TopAppBar(title = { Text(title) }, navigationIcon = {
+                    IconButton(onClick = {
+                        scope.launch {
+                            if (drawerState.isClosed) {
+                                drawerState.open()
+                            } else {
+                                drawerState.close()
+                            }
                         }
+                    }) {
+                        Icon(Icons.Default.Menu, contentDescription = "Menu")
                     }
-                }) {
-                    Icon(Icons.Default.Menu, contentDescription = "Menu")
-                }
-            })
-        }, floatingActionButton = {
-            if (currentRoute == Screen.Home.route) FloatingActionButton(
-                onClick = {
-                    navController.navigate(route = Screen.AddNotes.route)
-                },
-            ) {
-                Icon(Icons.Filled.Add, "Add notes")
-            }
-        }) { innerPadding ->
+                })
+            },
+            floatingActionButton = floatingActionButton
+        ) { innerPadding ->
             content(innerPadding)
         }
     }

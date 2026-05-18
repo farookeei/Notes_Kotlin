@@ -19,13 +19,14 @@ fun NavigationStack() {
             HomeScreen(navController)
         }
         composable(
-            route = Screen.AddNotes.route + "?id={id}", arguments = listOf(
-                navArgument(name = "id") {
-                    type = NavType.StringType
-                    nullable = true
-                })
+            route = Screen.AddNotes.route
+//            route = Screen.AddNotes.route + "?id={id}", arguments = listOf(
+//                navArgument(name = "id") {
+//                    type = NavType.StringType
+//                    nullable = true
+//                })
         ) {
-            AddNotesScreen(navController, id = it.arguments?.getString("id"))
+            AddNotesScreen(navController)
         }
     }
 }
