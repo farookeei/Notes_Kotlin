@@ -35,21 +35,28 @@ class NoteViewModel(private val dao: NoteDao) : ViewModel() {
         }
     }
 
-    fun editNote(id: Int, content: String) {
-        viewModelScope.launch {
-            dao.editNote(
-                Note(
-                    id = id,
-                    content = content
-                )
+    suspend fun editNote(id: Int, content: String) {
+        dao.editNote(
+            Note(
+                id = id,
+                content = content
             )
-        }
+        )
+
     }
 
+    //    fun editNote(id: Int, content: String) {
+//        viewModelScope.launch {
+//            dao.editNote(
+//                Note(
+//                    id = id,
+//                    content = content
+//                )
+//            )
+//        }
+//    }
+    suspend fun deleteNote(note: Note) {
+        dao.deleteNote(note)
 
-    fun deleteNote(note: Note) {
-        viewModelScope.launch {
-            dao.deleteNote(note)
-        }
     }
 }

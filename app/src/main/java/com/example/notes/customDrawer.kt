@@ -3,6 +3,7 @@ package com.example.notes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +47,7 @@ import kotlinx.coroutines.launch
 fun CustomDrawer(
     content: @Composable (PaddingValues) -> Unit,
     floatingActionButton: @Composable () -> Unit,
+    appBarActions: @Composable (RowScope) -> Unit = {},
     navController: NavController
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -73,7 +76,10 @@ fun CustomDrawer(
                         selected = currentRoute == Screen.Home.route,
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(route = Screen.Home.route)
+                            if (currentRoute != Screen.Home.route) {
+                                navController.navigate(route = Screen.Home.route)
+
+                            }
                         }
                     )
                     Spacer(Modifier.height(12.dp))
@@ -82,8 +88,9 @@ fun CustomDrawer(
                         selected = currentRoute == Screen.AddNotes.route,
                         onClick = {
                             scope.launch { drawerState.close() }
-
-                            navController.navigate(route = Screen.AddNotes.route)
+                            if (currentRoute != Screen.AddNotes.route) {
+                                navController.navigate(route = Screen.AddNotes.route)
+                            }
                         }
                     )
                 }
@@ -92,19 +99,22 @@ fun CustomDrawer(
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(title = { Text(title) }, navigationIcon = {
-                    IconButton(onClick = {
-                        scope.launch {
-                            if (drawerState.isClosed) {
-                                drawerState.open()
-                            } else {
-                                drawerState.close()
+                TopAppBar(
+                    title = { Text(title) }, navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (drawerState.isClosed) {
+                                    drawerState.open()
+                                } else {
+                                    drawerState.close()
+                                }
                             }
+                        }) {
+                            Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
-                    }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                })
+                    },
+                    actions = appBarActions
+                )
             },
             floatingActionButton = floatingActionButton
         ) { innerPadding ->
