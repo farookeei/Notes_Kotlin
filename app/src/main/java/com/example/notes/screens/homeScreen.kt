@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,10 +21,12 @@ import androidx.navigation.NavController
 import com.example.notes.CustomDrawer
 import com.example.notes.viewmodel.NoteViewModel
 import com.example.notes.widgets.NotesCard
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: NoteViewModel = koinViewModel()) {
+    val scope = rememberCoroutineScope()
     val notes by viewModel.getNotes.collectAsState()
     CustomDrawer(navController = navController, floatingActionButton = {
         FloatingActionButton(
@@ -52,6 +55,11 @@ fun HomeScreen(navController: NavController, viewModel: NoteViewModel = koinView
             items(notes) { note ->
                 NotesCard(
                     title = note.content,
+                    onDeleteConfirm = {
+                        scope.launch {
+                            viewModel.deleteNote(note = note)
+                        }
+                    },
                     onClick = {
                         navController.navigate(route = Screen.EditNotes.route + "/${note.id}")
                     }
