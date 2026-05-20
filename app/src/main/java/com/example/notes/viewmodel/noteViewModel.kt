@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notes.database.notes.Note
 import com.example.notes.database.notes.NoteDao
+import com.example.notes.repository.INoteRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -11,52 +12,34 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
 
-class NoteViewModel(private val dao: NoteDao) : ViewModel() {
+
+class NoteViewModel(private val repository: INoteRepository) :
+    ViewModel() {
     // By converting the Flow to a StateFlow, the UI can observe 'notes'
     // and will automatically update whenever the database changes.
-    val getNotes: StateFlow<List<Note>> = dao.getNotes()
-        .stateIn(
+    val getNotes: StateFlow<List<Note>> =
+        repository.getNotes().stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
 
+
     fun getNoteById(id: Int?): Flow<Note?> {
-        return getNotes.map { notes -> notes.find { it.id == id } }
+        return repository.getNoteById(id)
     }
 
-    fun addNote(content: String) {
-        viewModelScope.launch {
-            dao.insertNote(
-                Note(
-                    content = content
-                )
-            )
-        }
+    suspend fun addNote(content: String) {
+        repository.addNote(content)
+
     }
 
     suspend fun editNote(id: Int, content: String) {
-        dao.editNote(
-            Note(
-                id = id,
-                content = content
-            )
-        )
-
+        repository.editNote(id, content)
     }
 
-    //    fun editNote(id: Int, content: String) {
-//        viewModelScope.launch {
-//            dao.editNote(
-//                Note(
-//                    id = id,
-//                    content = content
-//                )
-//            )
-//        }
-//    }
     suspend fun deleteNote(note: Note) {
-        dao.deleteNote(note)
+        repository.deleteNote(note)
 
     }
 }
