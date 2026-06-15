@@ -9,7 +9,6 @@ import kotlinx.cinterop.ExperimentalForeignApi
 fun getDatabaseBuilder(): RoomDatabase.Builder<NoteDatabase> {
     val dbFilePath = NSHomeDirectory() + "/note_database.db"
     return Room.databaseBuilder<NoteDatabase>(
-        name = dbFilePath,
-        factory = { NoteDatabase::class.instantiateImpl() }
+        name = dbFilePath
     )
 }

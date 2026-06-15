@@ -10,12 +10,14 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+expect fun getCurrentTimeMillis(): Long
+
 @Entity(tableName = "notes")
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val content: String,
-    val timeStamp: Long = System.currentTimeMillis()
+    val timeStamp: Long = getCurrentTimeMillis()
 )
 
 @Dao
