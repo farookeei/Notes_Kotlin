@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-// Updated KSP version for Kotlin 2.2.10
-    id("com.google.devtools.ksp") version "2.2.10-2.0.2"
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -42,19 +41,16 @@ android {
 }
 
 dependencies {
-    val room_version = "2.8.4"
     val nav_version = "2.9.8"
     val koin_version = "3.5.3"
 
-    implementation("androidx.room:room-runtime:${room_version}")
-    implementation("androidx.room:room-ktx:${room_version}")
-    ksp("androidx.room:room-compiler:${room_version}")
+    implementation(project(":shared"))
+
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.navigation:navigation-compose:${nav_version}")
     implementation("io.insert-koin:koin-androidx-compose:${koin_version}")
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
